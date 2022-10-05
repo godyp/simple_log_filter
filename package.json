@@ -1,0 +1,77 @@
+{
+	"name": "simple-log-filter",
+	"description": "Simple Log Filter - A filtering tool",
+	"version": "0.1.0",
+	"publisher": "godyp",
+	"private": true,
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/godyp/simple_log_filter"
+	},
+	"engines": {
+		"vscode": "^1.50.0"
+	},
+	"extensionKind": [
+		"ui",
+		"workspace"
+	],
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onView:simpleLogFilter.colorsView",
+		"onCommand:simpleLogFilter.addColor",
+		"onCommand:simpleLogFilter.clearColors"
+	],
+	"main": "./out/extension.js",
+	"contributes": {
+		"views": {
+			"explorer": [
+				{
+					"type": "webview",
+					"id": "simpleLogFilter.colorsView",
+					"name": "Simple Log Filter"
+				}
+			]
+		},
+		"commands": [
+			{
+				"command": "simpleLogFilter.addColor",
+				"category": "Simple Log Filter",
+				"title": "Add Filter"
+			},
+			{
+				"command": "simpleLogFilter.clearColors",
+				"category": "Simple Log Filter",
+				"title": "Clear Filters",
+				"icon": "$(clear-all)"
+			}
+		],
+		"menus": {
+			"view/title": [
+				{
+					"command": "simpleLogFilter.clearColors",
+					"group": "navigation",
+					"when": "view == simpleLogFilter.colorsView"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "eslint . --ext .ts,.tsx",
+		"watch": "tsc -w -p ./"
+	},
+	"devDependencies": {
+		"@types/vscode": "^1.50.0",
+		"@typescript-eslint/eslint-plugin": "^5.30.0",
+		"@typescript-eslint/parser": "^5.30.0",
+		"eslint": "^8.13.0",
+		"typescript": "^4.8.4"
+	},
+	"dependencies": {
+		"@types/node": "^18.8.1"
+	}
+}
