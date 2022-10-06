@@ -45,18 +45,11 @@
             const li = document.createElement('li');
             li.className = 'color-entry';
 
-            const colorPreview = document.createElement('div');
-            colorPreview.className = 'color-preview';
-            colorPreview.style.backgroundColor = `#${color.value}`;
-            colorPreview.addEventListener('click', () => {
-                onColorClicked(color.filter);
-            });
-            li.appendChild(colorPreview);
-
             const input = document.createElement('input');
             input.className = 'color-input';
             input.type = 'text';
             input.value = color.filter;
+            input.placeholder = "Filter text";
             input.addEventListener('change', (e) => {
                 const filter = e.target.value;
                 if (!filter) {
@@ -68,6 +61,19 @@
                 updateColorList(colors);
             });
             li.appendChild(input);
+
+            const colorPreview = document.createElement('div');
+
+            const play_arrow = document.createElement('div');
+            play_arrow.className = 'play-arrow';
+            colorPreview.append(play_arrow);
+
+            colorPreview.className = 'color-preview';
+            colorPreview.style.backgroundColor = `#0E639C`;
+            colorPreview.addEventListener('click', () => {
+                onColorClicked(color.filter);
+            });
+            li.appendChild(colorPreview);
 
             ul.appendChild(li);
         }
