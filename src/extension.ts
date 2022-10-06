@@ -55,8 +55,16 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 						if (editor){
 							const filterWord = data.value;
 							const document = editor.document.getText();
-							const regex = new RegExp(`(^|\r\n).*` + filterWord + `.*`, 'g');
-							const replacedDocument = document.replace(regex,"");
+							const lines = document.split(/\r\n/);
+							const filteredLines = lines.filter((line)=>{
+								return line.includes(filterWord);
+							});
+							const filteredDocument = filteredLines.join("\r\n");
+							console.log(filteredDocument);
+
+							/* delete lines include keyword. */
+							// const regex = new RegExp(`(^|\r\n).*` + filterWord + `.*`, 'g');
+							// filteredDocument = document.replace(regex,"");
 
 							const lineCount = editor.document.lineCount-1;
 							const lineNumber = editor.document.lineAt(lineCount).text.length;
@@ -65,11 +73,21 @@ class ColorsViewProvider implements vscode.WebviewViewProvider {
 								new vscode.Position(lineCount, lineNumber));
 
 							editor.edit(function (editBuilder) {
-								editBuilder.replace(range, replacedDocument);
+								editBuilder.replace(range, filteredDocument);
 							}, { undoStopBefore: true, undoStopAfter: true }).then(
 								value => console.log("SUCCESS: "+value),
 								reason => console.log("FAIL REASON: "+reason),
 							);
+
+							if (lines.length != filteredLines.length){
+									vscode.commands.executeCommand("editorScroll", {
+										to: "up",
+										by: "page",
+										value: 0,
+										revealCursor: true,
+									}
+								);
+							}
 						}
 						break;
 					}
